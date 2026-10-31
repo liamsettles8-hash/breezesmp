@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Breeze SMP — join the adventure.">
+  <title>Breeze SMP</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #111827;
+      --surface: #1b2638;
+      --surface-light: #243249;
+      --text: #f3f4f6;
+      --muted: #a7b1c2;
+      --accent: #72c7ee;
+      --border: #34445b;
+      --green: #54d18a;
+      --red: #ff7777;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      background: #151f2e;
+    }
+
+    .nav {
+      width: min(1080px, calc(100% - 40px));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      width: min(900px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 88px 0 56px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 54px 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 8vw, 72px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .intro {
+      max-width: 540px;
+      margin: 18px auto 28px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .server-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px 10px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #121b29;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 10px 15px;
+      background: var(--accent);
+      color: #10202b;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover { background: #9bdcf8; }
+    button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .status-card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .status-card h2 {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stat {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .online { color: var(--green); }
+    .offline { color: var(--red); }
+
+    .about {
+      margin-top: 20px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .about h2 { margin: 0 0 8px; font-size: 20px; }
+    .about p { margin: 0; color: var(--muted); }
+
+    footer {
+      padding: 24px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 560px) {
+      main { padding-top: 36px; }
+      .hero { padding: 42px 16px; }
+      .server-address { flex-direction: column; }
+      .status-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav">
+      <a class="brand" href="#">BREEZE SMP</a>
+      <span class="nav-label">Minecraft Survival</span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Your next adventure starts here</p>
+      <h1>Breeze SMP</h1>
+      <p class="intro">Build your base, meet new players, and make your mark. Join the server today.</p>
+
+      <div class="server-address">
+        <span id="server-ip">breeze.smp.quest</span>
+        <button id="copy-button" type="button">Copy IP</button>
+      </div>
+    </section>
+
+    <section class="status-grid" aria-label="Server status">
+      <div class="status-card">
+        <h2>Server status</h2>
+        <p class="stat online" id="server-status" aria-live="polite">Checking...</p>
+      </div>
+      <div class="status-card">
+        <h2>Online players</h2>
+        <p class="stat" id="player-count" aria-live="polite">-- / --</p>
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>Join Breeze SMP</h2>
+      <p>Copy the server address above, open Minecraft, and add Breeze SMP to your server list.</p>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Breeze SMP. Not affiliated with Mojang or Microsoft.</footer>
+
+  <script>
+    const serverIp = "breeze.smp.quest";
+    const copyButton = document.getElementById("copy-button");
+    const statusElement = document.getElementById("server-status");
+    const playersElement = document.getElementById("player-count");
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    copyButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(serverIp);
+        copyButton.textContent = "Copied!";
+      } catch {
+        const temporaryInput = document.createElement("textarea");
+        temporaryInput.value = serverIp;
+        document.body.appendChild(temporaryInput);
+        temporaryInput.select();
+        document.execCommand("copy");
+        temporaryInput.remove();
+        copyButton.textContent = "Copied!";
+      }
+
+      setTimeout(() => { copyButton.textContent = "Copy IP"; }, 1800);
+    });
+
+    async function updateServerStatus() {
+      try {
+        const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`, {
+          cache: "no-store"
+        });
+        if (!response.ok) throw new Error("Status request failed");
+
+        const data = await response.json();
+
+        if (data.online) {
+          statusElement.textContent = "Online";
+          statusElement.className = "stat online";
+          const online = data.players?.online ?? 0;
+          const max = data.players?.max ?? "?";
+          playersElement.textContent = `${online} / ${max}`;
+        } else {
+          statusElement.textContent = "Offline";
+          statusElement.className = "stat offline";
+          playersElement.textContent = "0 / --";
+        }
+      } catch {
+        statusElement.textContent = "Unavailable";
+        statusElement.className = "stat";
+        playersElement.textContent = "-- / --";
+      }
+    }
+
+    updateServerStatus();
+    setInterval(updateServerStatus, 60000);
+  </script>
+</body>
+</html>
